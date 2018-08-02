@@ -44,7 +44,8 @@ class BlockGrid {
   }
 
   checkColumnElements(block) {
-    const blockClickedColour = blockClickedColour || document.getElementById(`block_${block.x}x${block.y}`).style.background
+    const blockClickedColour = blockClickedColour ||
+      document.getElementById(`block_${block.x}x${block.y}`).style.background
     let currentColumnColors = []
 
     for (let y = 0; y < this.height; y++) {
@@ -86,16 +87,16 @@ class BlockGrid {
 
   checkAdjacentColumns(matchingBlocks, block, blockClickedColour) {
     const columnIndex = block.x + 1
-    let adjacentMatchingBlock = undefined
-    matchingBlocks.forEach(block => {
-      console.log('block', block)
-      if (document.getElementById(`block_${columnIndex}x${block}`).style.background === blockClickedColour) {
-        adjacentMatchingBlock = this.grid[columnIndex][block]
+    if (columnIndex < 10) {
+      matchingBlocks.forEach(block => {
+          if (document.getElementById(`block_${columnIndex}x${block}`).style.background === blockClickedColour) {
+            this.checkColumnElements(this.grid[columnIndex][block])
+          }
         }
-     }
-    )
-    if (adjacentMatchingBlock) { this.checkColumnElements(adjacentMatchingBlock)}
+      )
+    }
   }
+
 }
 
 export default BlockGrid;
