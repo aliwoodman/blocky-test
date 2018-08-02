@@ -28,7 +28,7 @@ describe('BlockGrid', () => {
     const testBlockColours = ['green', 'green', 'red', 'blue', 'blue', 'blue', 'red', 'blue', 'green', 'blue']
 
     const grid = new BlockGrid(10, 10)
-    grid.grid[0].map(block => block.colour = testBlockColours[block.y])
+    grid.grid[0].forEach(block => block.colour = testBlockColours[block.y])
     const gridEl = document.createElement('div')
     gridEl.id = "gridEl"
     document.body.appendChild(gridEl);
