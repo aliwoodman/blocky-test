@@ -35,7 +35,7 @@ describe('BlockGrid', () => {
 
     grid.render(gridEl)
 
-    document.getElementById('block_0x0').click()
+    document.getElementById('block_0x1').click()
 
     const getBlockColoursForColumn = (x) => {
       let blockColours = []

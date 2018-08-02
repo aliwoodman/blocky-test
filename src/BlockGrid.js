@@ -39,7 +39,7 @@ class BlockGrid {
   }
 
   blockClicked(e, block) {
-    this.updateColumn(block)
+    this.checkColumnElements(block)
   }
 
   getMatchingBlocks(currentColumnColors, blockClickedColour, block) {
@@ -56,16 +56,7 @@ class BlockGrid {
     return matchingBlocks
   }
 
-  updateColumn(block) {
-    const blockClickedColour = document.getElementById(`block_${block.x}x${block.y}`).style.background
-    let currentColumnColors = []
-
-    for (let y = 0; y < this.height; y++) {
-      currentColumnColors.push(document.getElementById(`block_${block.x}x${y}`).style.background)
-    }
-
-    const matchingBlocks = this.getMatchingBlocks(currentColumnColors, blockClickedColour, block)
-
+  updateColumn(matchingBlocks, currentColumnColors, block) {
     const firstXCoordinate = matchingBlocks.sort()[0]
     const lastXCoordinate = matchingBlocks.sort()[matchingBlocks.length - 1]
     const numberOfMatchingBlocks = lastXCoordinate - firstXCoordinate + 1
@@ -76,6 +67,18 @@ class BlockGrid {
     for (let y = 0; y < this.height; y++) {
       document.getElementById(`block_${block.x}x${y}`).style.background = currentColumnColors[y]
     }
+  }
+
+  checkColumnElements(block) {
+    const blockClickedColour = document.getElementById(`block_${block.x}x${block.y}`).style.background
+    let currentColumnColors = []
+
+    for (let y = 0; y < this.height; y++) {
+      currentColumnColors.push(document.getElementById(`block_${block.x}x${y}`).style.background)
+    }
+
+    const matchingBlocks = this.getMatchingBlocks(currentColumnColors, blockClickedColour, block)
+    this.updateColumn(matchingBlocks, currentColumnColors, block)
   }
 }
 
