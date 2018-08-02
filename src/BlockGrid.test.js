@@ -40,7 +40,6 @@ describe('BlockGrid', () => {
     const getBlockColoursForColumn = (x) => {
       let blockColours = []
       for (let y = 0; y < 10; y++) {
-        console.log(y, document.getElementById(`block_${x}x${y}`).style.background)
         blockColours.push(document.getElementById(`block_${x}x${y}`).style.background)
       }
       return blockColours

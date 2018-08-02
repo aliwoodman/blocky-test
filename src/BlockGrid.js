@@ -42,18 +42,37 @@ class BlockGrid {
     this.updateColumn(block)
   }
 
+  getMatchingBlocks(currentColumnColors, blockClickedColour, block) {
+    let matchingBlocks = []
+
+    for (let y = block.y; y < 10 && currentColumnColors[y] === blockClickedColour; y++ ) {
+      matchingBlocks.push(y)
+    }
+
+    for (let y = block.y; y >= 0 && currentColumnColors[y] === blockClickedColour; y-- ) {
+      matchingBlocks.push(y)
+    }
+
+    return matchingBlocks
+  }
+
   updateColumn(block) {
     const blockClickedColour = document.getElementById(`block_${block.x}x${block.y}`).style.background
-
     let currentColumnColors = []
+
     for (let y = 0; y < this.height; y++) {
       currentColumnColors.push(document.getElementById(`block_${block.x}x${y}`).style.background)
     }
 
-    while ( currentColumnColors[block.y] === blockClickedColour) {
-      currentColumnColors.splice(block.y , 1)
-      currentColumnColors.push('grey')
-    }
+    const matchingBlocks = this.getMatchingBlocks(currentColumnColors, blockClickedColour, block)
+
+    const firstXCoordinate = matchingBlocks.sort()[0]
+    const lastXCoordinate = matchingBlocks.sort()[matchingBlocks.length - 1]
+    const numberOfMatchingBlocks = lastXCoordinate - firstXCoordinate + 1
+
+    currentColumnColors.splice(firstXCoordinate, numberOfMatchingBlocks)
+    for (var i = 0; i <= numberOfMatchingBlocks; i++) currentColumnColors.push('grey');
+
     for (let y = 0; y < this.height; y++) {
       document.getElementById(`block_${block.x}x${y}`).style.background = currentColumnColors[y]
     }
