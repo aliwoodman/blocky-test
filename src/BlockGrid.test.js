@@ -24,5 +24,28 @@ describe('BlockGrid', () => {
     });
   });
 
-  xit('good luck, have fun!', () => {});
+  it('clicking a block in a column causes block colours in that column to update', () => {
+    const testBlockColours = ['green', 'green', 'red', 'blue', 'blue', 'blue', 'red', 'blue', 'green', 'blue']
+
+    const grid = new BlockGrid(10, 10)
+    grid.grid[0].map(block => block.colour = testBlockColours[block.y])
+    const gridEl = document.createElement('div')
+    gridEl.id = "gridEl"
+    document.body.appendChild(gridEl);
+
+    grid.render(gridEl)
+
+    document.getElementById('block_0x0').click()
+
+    const getBlockColoursForColumn = (x) => {
+      let blockColours = []
+      for (let y = 0; y < 10; y++) {
+        console.log(y, document.getElementById(`block_${x}x${y}`).style.background)
+        blockColours.push(document.getElementById(`block_${x}x${y}`).style.background)
+      }
+      return blockColours
+    }
+
+    expect(getBlockColoursForColumn(0)).toEqual(['red', 'blue', 'blue', 'blue', 'red', 'blue', 'green', 'blue', 'grey', 'grey'])
+  });
 });

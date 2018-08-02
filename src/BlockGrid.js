@@ -39,7 +39,24 @@ class BlockGrid {
   }
 
   blockClicked(e, block) {
-    console.log(e, block);
+    this.updateColumn(block)
+  }
+
+  updateColumn(block) {
+    const blockClickedColour = document.getElementById(`block_${block.x}x${block.y}`).style.background
+
+    let currentColumnColors = []
+    for (let y = 0; y < this.height; y++) {
+      currentColumnColors.push(document.getElementById(`block_${block.x}x${y}`).style.background)
+    }
+
+    while ( currentColumnColors[block.y] === blockClickedColour) {
+      currentColumnColors.splice(block.y , 1)
+      currentColumnColors.push('grey')
+    }
+    for (let y = 0; y < this.height; y++) {
+      document.getElementById(`block_${block.x}x${y}`).style.background = currentColumnColors[y]
+    }
   }
 }
 
