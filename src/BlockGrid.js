@@ -6,6 +6,7 @@ class BlockGrid {
     this.height = height;
     this.grid = [];
     this.columnsChecked = [];
+    this.blockClickedColour = null;
 
     for (let x = 0; x < this.width; x++) {
       const col = [];
@@ -45,9 +46,11 @@ class BlockGrid {
   }
 
   checkColumnElements(block) {
-    const blockClickedColour = document.getElementById(
+    this.blockClickedColour = document.getElementById(
       `block_${block.x}x${block.y}`
     ).style.background;
+    if(this.blockClickedColour === 'grey') { return }
+
     this.columnsChecked.push(block.x);
     let currentColumnColors = [];
 
@@ -59,7 +62,6 @@ class BlockGrid {
 
     const matchingBlocks = this.getMatchingBlocks(
       currentColumnColors,
-      blockClickedColour,
       block
     );
 
@@ -70,20 +72,20 @@ class BlockGrid {
       sortedCheckedColumns[sortedCheckedColumns.length - 1] === block.x &&
       block.x !== this.width - 1
     ) {
-      this.checkAdjacentColumnsRight(matchingBlocks, block, blockClickedColour);
+      this.checkAdjacentColumnsRight(matchingBlocks, block);
     }
 
     if (sortedCheckedColumns[0] === block.x && block.x !== 0) {
-      this.checkAdjacentColumnsLeft(matchingBlocks, block, blockClickedColour);
+      this.checkAdjacentColumnsLeft(matchingBlocks, block);
     }
   }
 
-  getMatchingBlocks(currentColumnColors, blockClickedColour, block) {
+  getMatchingBlocks(currentColumnColors, block) {
     let matchingBlocks = [];
 
     for (
       let y = block.y;
-      y < this.width && currentColumnColors[y] === blockClickedColour;
+      y < this.width && currentColumnColors[y] === this.blockClickedColour;
       y++
     ) {
       matchingBlocks.push(y);
@@ -91,7 +93,7 @@ class BlockGrid {
 
     for (
       let y = block.y;
-      y >= 0 && currentColumnColors[y] === blockClickedColour;
+      y >= 0 && currentColumnColors[y] === this.blockClickedColour;
       y--
     ) {
       matchingBlocks.push(y);
@@ -115,34 +117,32 @@ class BlockGrid {
     }
   }
 
-  getColumnElementsToCheck(matchingBlocks, blockClickedColour, columnIndex) {
+  getColumnElementsToCheck(matchingBlocks, columnIndex) {
     matchingBlocks.forEach(block => {
       if (
         document.getElementById(`block_${columnIndex}x${block}`).style
-          .background === blockClickedColour
+          .background === this.blockClickedColour
       ) {
         this.checkColumnElements(this.grid[columnIndex][block]);
       }
     });
   }
 
-  checkAdjacentColumnsRight(matchingBlocks, block, blockClickedColour) {
+  checkAdjacentColumnsRight(matchingBlocks, block) {
     const columnIndex = block.x + 1;
     if (columnIndex < this.width) {
       this.getColumnElementsToCheck(
         matchingBlocks,
-        blockClickedColour,
         columnIndex
       );
     }
   }
 
-  checkAdjacentColumnsLeft(matchingBlocks, block, blockClickedColour) {
+  checkAdjacentColumnsLeft(matchingBlocks, block) {
     const columnIndex = block.x - 1;
     if (columnIndex >= 0) {
       this.getColumnElementsToCheck(
         matchingBlocks,
-        blockClickedColour,
         columnIndex
       );
     }
