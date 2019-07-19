@@ -109,7 +109,7 @@ class BlockGrid {
 
     currentColumnColors.splice(firstXCoordinate, numberOfMatchingBlocks);
     for (var i = 0; i < numberOfMatchingBlocks; i++)
-      currentColumnColors.push('gray');
+      currentColumnColors.push('grey');
 
     for (let y = 0; y < this.height; y++) {
       document.getElementById(`block_${block.x}x${y}`).style.background =

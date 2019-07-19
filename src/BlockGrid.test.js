@@ -38,13 +38,13 @@ describe('BlockGrid', () => {
       'blue',
     ];
 
-    const testColumn = new BlockGrid(1, 10);
-    testColumn.grid[0].forEach(block => (block.colour = testBlockColours[block.y]));
+    const grid = new BlockGrid(10, 10);
+    grid.grid[0].forEach(block => (block.colour = testBlockColours[block.y]));
     const gridEl = document.createElement('div');
     gridEl.id = 'gridEl';
     document.body.appendChild(gridEl);
 
-    testColumn.render(gridEl);
+    grid.render(gridEl);
 
     document.getElementById('block_0x1').click();
 
@@ -67,8 +67,8 @@ describe('BlockGrid', () => {
       'blue',
       'green',
       'blue',
-      'gray',
-      'gray',
+      'grey',
+      'grey',
     ]);
   });
 });
